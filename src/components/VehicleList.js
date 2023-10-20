@@ -23,7 +23,6 @@ const VehicleList = () => {
       setVehicles(formattedData);
       setLoading(false);
     } catch (error) {
-      console.error('Error al obtener la lista de vehículos:', error);
       setError('Error al cargar la lista de vehículos. Inténtalo de nuevo más tarde.');
       setTimeout(() => {
         setError(null);
@@ -56,7 +55,6 @@ const VehicleList = () => {
       // Vuelve a consultar la lista de coches después de la acción
       fetchData();
     } catch (error) {
-      console.error('Error al marcar/desmarcar el coche como favorito:', error);
       setError('Error al marcar/desmarcar el coche como favorito');
       setTimeout(() => {
         setError(null);
@@ -67,9 +65,11 @@ const VehicleList = () => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
       {loading ? (
-        <div className="text-center">Cargando...</div>
+        <div className="text-center text-gray-600 text-xl">Cargando...</div>
       ) : error ? (
-        <div className="text-center text-red-500">{error}</div>
+        <div className="text-center text-red-500 text-xl bg-red-200 p-4 rounded-lg shadow-md">
+          {error}
+        </div>
       ) : (
         vehicles.map((brand) => (
           <div
@@ -98,7 +98,7 @@ const VehicleList = () => {
       )}
 
       {success && (
-        <div className="fixed bottom-0 right-0 p-4 m-4 bg-green-500 text-white rounded-lg">
+        <div className="fixed bottom-0 right-0 p-4 m-4 bg-green-500 text-white text-xl rounded-lg shadow-md">
           {success}
         </div>
       )}
