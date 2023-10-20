@@ -1,12 +1,11 @@
 import React from 'react';
+import VehicleList from './VehicleList'; // Asegúrate de que la ruta sea correcta
 
 const Dashboard = () => {
-  // Aquí puedes recuperar la lista de vehículos desde tu servidor o almacenamiento local
-
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-semibold mb-4">Pantalla Principal</h1>
-      {/* Mapea la lista de vehículos y muestra tarjetas de vehículos aquí */}
+    <div className="container mx-auto py-4">
+      <h1 className="text-3xl font-semibold mb-4">Dashboard</h1>
+      <VehicleList /> {/* Agrega el componente VehicleList aquí */}
     </div>
   );
 };
