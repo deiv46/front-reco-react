@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useAuthDispatch, setAuthenticated, setUnauthenticated } from '../AuthContext';
+import { useAuthDispatch, setAuthenticated } from '../AuthContext';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -21,7 +21,10 @@ const Login = () => {
       if (response.status === 200 && response.data.token) {
         // Guarda el token JWT en el localStorage
         localStorage.setItem('token', response.data.token);
-        const authDispatch = useAuthDispatch();
+
+        // Llama a la función de acción para establecer la autenticación
+        setAuthenticated(authDispatch);
+
         // Navega a la página de Dashboard
         navigate('/dashboard');
       } else {
