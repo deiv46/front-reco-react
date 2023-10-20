@@ -8,28 +8,28 @@ const VehicleList = () => {
   const [success, setSuccess] = useState(null);
   const userId = localStorage.getItem('username');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('https://back-reco-node.onrender.com/cars');
-        const responseData = response.data;
-        const formattedData = responseData[0].marcas.map((marca) => ({
-          _id: marca._id,
-          nombre: marca.nombre,
-          modelos: marca.modelos || [],
-        }));
-        setVehicles(formattedData);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error al obtener la lista de vehículos:', error);
-        setError('Error al cargar la lista de vehículos. Inténtalo de nuevo más tarde.');
-        setTimeout(() => {
-          setError(null);
-        }, 3000); // Ocultar el error después de 3 segundos
-        setLoading(false);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('https://back-reco-node.onrender.com/cars');
+      const responseData = response.data;
+      const formattedData = responseData[0].marcas.map((marca) => ({
+        _id: marca._id,
+        nombre: marca.nombre,
+        modelos: marca.modelos || [],
+      }));
+      setVehicles(formattedData);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error al obtener la lista de vehículos:', error);
+      setError('Error al cargar la lista de vehículos. Inténtalo de nuevo más tarde.');
+      setTimeout(() => {
+        setError(null);
+      }, 3000); // Ocultar el error después de 3 segundos
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -49,7 +49,7 @@ const VehicleList = () => {
           setSuccess(null);
         }, 3000); // Ocultar el mensaje de éxito después de 3 segundos
       }
-      
+
       // Vuelve a consultar la lista de coches después de la acción
       fetchData();
     } catch (error) {
