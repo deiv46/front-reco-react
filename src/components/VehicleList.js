@@ -9,6 +9,7 @@ const VehicleList = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://back-reco-node.onrender.com/cars');
+        console.log('Respuesta del servidor:', response.data); // Agregamos una traza para verificar la respuesta del servidor
         const responseData = response.data;
         // Accede a la propiedad "marcas" en la respuesta del servidor
         const formattedData = responseData[0].marcas.map((marca) => ({
@@ -16,6 +17,7 @@ const VehicleList = () => {
           nombre: marca.nombre,
           modelos: marca.modelos || [],
         }));
+        console.log('Datos formateados:', formattedData); // Agregamos una traza para verificar los datos formateados
         setVehicles(formattedData);
         setLoading(false);
       } catch (error) {
@@ -41,6 +43,7 @@ const VehicleList = () => {
             <div className="mt-4">
               {brand.modelos.map((modelo) => (
                 <div key={modelo._id} className="mb-4 flex items-center justify-between">
+                  console.log('Modelo:', modelo); // Agregamos una traza para verificar el modelo
                   <div>
                     <img
                       src={modelo.img}
