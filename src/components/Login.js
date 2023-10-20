@@ -21,6 +21,7 @@ const Login = () => {
       if (response.status === 200 && response.data.token) {
         // Guarda el token JWT en el localStorage
         localStorage.setItem('token', response.data.token);
+        localStorage.setItem('username', username);
 
         // Llama a la función de acción para establecer la autenticación
         setAuthenticated(authDispatch);
