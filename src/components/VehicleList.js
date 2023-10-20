@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 const VehicleList = () => {
@@ -8,9 +8,12 @@ const VehicleList = () => {
   const [success, setSuccess] = useState(null);
   const userName = localStorage.getItem('username');
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get('https://back-reco-node.onrender.com/cars');
+      const params = {
+        userName: userName,
+      };
+      const response = await axios.get('https://back-reco-node.onrender.com/cars', { params });
       const responseData = response.data;
       const formattedData = responseData[0].marcas.map((marca) => ({
         _id: marca._id,
@@ -27,11 +30,11 @@ const VehicleList = () => {
       }, 3000); // Ocultar el error después de 3 segundos
       setLoading(false);
     }
-  };
+  }, [userName]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const defaultVehicleImage = 'https://via.placeholder.com/150';
 
