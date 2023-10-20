@@ -5,12 +5,11 @@ const VehicleList = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const userId = "";
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://back-reco-node.onrender.com/cars');
-        console.log('Respuesta del servidor:', response.data);
         const responseData = response.data;
         const formattedData = responseData[0].marcas.map((marca) => ({
           _id: marca._id,
@@ -34,8 +33,21 @@ const VehicleList = () => {
 
   const defaultVehicleImage = 'https://via.placeholder.com/150'; // URL de la imagen de vehículo por defecto
 
+  const handleFavoriteClick = async (userId, carId) => {
+    try {
+      // Realiza una solicitud POST para marcar o desmarcar un coche como favorito
+      const response = await axios.post('https://back-reco-node.onrender.com/addFavoriteCar', {
+        userId: userId,
+        carId: carId,
+      });
+      console.log(response.data); // Maneja la respuesta de la API aquí
+    } catch (error) {
+      console.error('Error al marcar/desmarcar el coche como favorito:', error);
+    }
+  };
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
       {loading ? (
         <div className="text-center">Cargando...</div>
       ) : error ? (
@@ -43,30 +55,26 @@ const VehicleList = () => {
       ) : (
         vehicles.map((brand) => (
           <div
-            key={brand._id}
-            className="relative p-4 bg-white rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-lg"
+            key={brand.__id}
+            className="relative p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-transform transform hover:scale-105"
           >
-            <div className="text-xl font-semibold">{brand.nombre}</div>
-            <div className="mt-4">
-              {brand.modelos.map((modelo) => (
-                <div key={modelo._id} className="mb-4 flex items-center justify-between">
-                  <div>
-                    <img
-                      src={modelo.img || defaultVehicleImage}
-                      alt={modelo.nombre}
-                      className="w-12 h-12 object-cover rounded-lg"
-                    />
-                    <span className="ml-2">{modelo.nombre}</span>
-                  </div>
-                  <div>
-                    <button className="p-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg">
-                      Añadir a favoritos
-                      <span className="ml-2">⭐</span>
-                    </button>
-                  </div>
+            <div className="text-2xl font-semibold mb-4">{brand.nombre}</div>
+            {brand.modelos.map((modelo) => (
+              <div key={modelo._id} className="mb-4 relative">
+                <img
+                  src={modelo.img || defaultVehicleImage}
+                  alt={modelo.nombre}
+                  className="w-full h-48 sm:h-64 object-cover rounded-lg shadow-md hover:opacity-90 transition-opacity"
+                />
+                <div className="absolute bottom-0 bg-black bg-opacity-60 text-white p-4 w-full rounded-b-lg">
+                  <div className="text-left">{modelo.nombre}</div>
+                  <button className="absolute top-2 right-2 text-white rounded-full p-2 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:from-gold-300 hover:to-gold-500"
+                    onClick={() => handleFavoriteClick(userId, modelo._id)}>
+                    ⭐
+                  </button>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         ))
       )}
