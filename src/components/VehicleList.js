@@ -4,35 +4,42 @@ import axios from 'axios';
 const VehicleList = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://back-reco-node.onrender.com/cars');
-        console.log('Respuesta del servidor:', response.data); // Agregamos una traza para verificar la respuesta del servidor
+        console.log('Respuesta del servidor:', response.data);
         const responseData = response.data;
-        // Accede a la propiedad "marcas" en la respuesta del servidor
         const formattedData = responseData[0].marcas.map((marca) => ({
           _id: marca._id,
           nombre: marca.nombre,
           modelos: marca.modelos || [],
         }));
-        console.log('Datos formateados:', formattedData); // Agregamos una traza para verificar los datos formateados
         setVehicles(formattedData);
         setLoading(false);
       } catch (error) {
         console.error('Error al obtener la lista de vehículos:', error);
+        setError('Error al cargar la lista de vehículos. Inténtalo de nuevo más tarde.');
         setLoading(false);
+        setTimeout(() => {
+          setError(null);
+        }, 3000); // Limpiar el error después de 3 segundos
       }
     };
 
     fetchData();
   }, []);
 
+  const defaultVehicleImage = 'https://via.placeholder.com/150'; // URL de la imagen de vehículo por defecto
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {loading ? (
         <div className="text-center">Cargando...</div>
+      ) : error ? (
+        <div className="text-center text-red-500">{error}</div>
       ) : (
         vehicles.map((brand) => (
           <div
@@ -43,10 +50,9 @@ const VehicleList = () => {
             <div className="mt-4">
               {brand.modelos.map((modelo) => (
                 <div key={modelo._id} className="mb-4 flex items-center justify-between">
-                  console.log('Modelo:', modelo); // Agregamos una traza para verificar el modelo
                   <div>
                     <img
-                      src={modelo.img}
+                      src={modelo.img || defaultVehicleImage}
                       alt={modelo.nombre}
                       className="w-12 h-12 object-cover rounded-lg"
                     />
