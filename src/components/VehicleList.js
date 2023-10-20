@@ -10,17 +10,17 @@ const VehicleList = () => {
       try {
         const response = await axios.get('https://back-reco-node.onrender.com/cars');
         const responseData = response.data;
-        // Estructura los datos en un arreglo de marcas
-        const formattedData = responseData.map((marca) => ({
+        // Accede a la propiedad "marcas" en la respuesta del servidor
+        const formattedData = responseData[0].marcas.map((marca) => ({
           _id: marca._id,
           nombre: marca.nombre,
           modelos: marca.modelos || [],
         }));
         setVehicles(formattedData);
-        setLoading(false); // Marcar la carga como completa cuando se obtienen los datos
+        setLoading(false);
       } catch (error) {
         console.error('Error al obtener la lista de vehículos:', error);
-        setLoading(false); // Marcar la carga como completa en caso de error
+        setLoading(false);
       }
     };
 
