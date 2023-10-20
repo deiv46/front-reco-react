@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // Asegúrate de tener Axios instalado
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -18,9 +20,8 @@ const Login = () => {
         // Guarda el token JWT en el localStorage
         localStorage.setItem('token', response.data.token);
 
-        // Redirige a la página de Dashboard u otra página de tu elección
-        // Puedes usar react-router-dom para gestionar las rutas
-        // history.push('/dashboard'); // Asegúrate de importar useHistory desde react-router-dom
+        // Navega a la página de Dashboard
+        navigate('/dashboard');
       } else {
         // Maneja el caso en el que la autenticación falla
         setError('Inicio de sesión fallido');
