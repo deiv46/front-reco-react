@@ -5,7 +5,9 @@ const VehicleList = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const userId = "";
+  const [success, setSuccess] = useState(null);
+  const userId = localStorage.getItem('username');
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -21,28 +23,41 @@ const VehicleList = () => {
       } catch (error) {
         console.error('Error al obtener la lista de vehículos:', error);
         setError('Error al cargar la lista de vehículos. Inténtalo de nuevo más tarde.');
-        setLoading(false);
         setTimeout(() => {
           setError(null);
-        }, 3000); // Limpiar el error después de 3 segundos
+        }, 3000); // Ocultar el error después de 3 segundos
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  const defaultVehicleImage = 'https://via.placeholder.com/150'; // URL de la imagen de vehículo por defecto
+  const defaultVehicleImage = 'https://via.placeholder.com/150';
 
   const handleFavoriteClick = async (userId, carId) => {
     try {
-      // Realiza una solicitud POST para marcar o desmarcar un coche como favorito
       const response = await axios.post('https://back-reco-node.onrender.com/userCars/addFavoriteCar', {
         userId: userId,
         carId: carId,
       });
-      console.log(response.data); // Maneja la respuesta de la API aquí
+
+      // Maneja la respuesta de la API aquí
+      if (response.data.message) {
+        setSuccess(response.data.message);
+        setTimeout(() => {
+          setSuccess(null);
+        }, 3000); // Ocultar el mensaje de éxito después de 3 segundos
+      }
+      
+      // Vuelve a consultar la lista de coches después de la acción
+      fetchData();
     } catch (error) {
       console.error('Error al marcar/desmarcar el coche como favorito:', error);
+      setError('Error al marcar/desmarcar el coche como favorito');
+      setTimeout(() => {
+        setError(null);
+      }, 3000); // Ocultar el error después de 3 segundos
     }
   };
 
@@ -55,7 +70,7 @@ const VehicleList = () => {
       ) : (
         vehicles.map((brand) => (
           <div
-            key={brand.__id}
+            key={brand._id}
             className="relative p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-transform transform hover:scale-105"
           >
             <div className="text-2xl font-semibold mb-4">{brand.nombre}</div>
@@ -77,6 +92,12 @@ const VehicleList = () => {
             ))}
           </div>
         ))
+      )}
+
+      {success && (
+        <div className="fixed bottom-0 right-0 p-4 m-4 bg-green-500 text-white rounded-lg">
+          {success}
+        </div>
       )}
     </div>
   );
