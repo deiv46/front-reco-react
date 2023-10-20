@@ -8,7 +8,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://back-reco-node.onrender.com/users/login', {
+      const response = await axios.post('https://back-reco-node.onrender.com/login', {
         username,
         password,
       });
