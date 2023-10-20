@@ -6,7 +6,7 @@ const VehicleList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const userId = localStorage.getItem('username');
+  const userName = localStorage.getItem('username');
 
   const fetchData = async () => {
     try {
@@ -35,10 +35,10 @@ const VehicleList = () => {
 
   const defaultVehicleImage = 'https://via.placeholder.com/150';
 
-  const handleFavoriteClick = async (userId, carId) => {
+  const handleFavoriteClick = async (carId) => {
     try {
       const response = await axios.post('https://back-reco-node.onrender.com/userCars/addFavoriteCar', {
-        userId: userId,
+        userName: userName,
         carId: carId,
       });
 
@@ -84,7 +84,7 @@ const VehicleList = () => {
                 <div className="absolute bottom-0 bg-black bg-opacity-60 text-white p-4 w-full rounded-b-lg">
                   <div className="text-left">{modelo.nombre}</div>
                   <button className="absolute top-2 right-2 text-white rounded-full p-2 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:from-gold-300 hover:to-gold-500"
-                    onClick={() => handleFavoriteClick(userId, modelo._id)}>
+                    onClick={() => handleFavoriteClick(modelo._id)}>
                     ⭐
                   </button>
                 </div>
