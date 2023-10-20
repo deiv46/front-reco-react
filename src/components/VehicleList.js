@@ -36,7 +36,7 @@ const VehicleList = () => {
   const handleFavoriteClick = async (userId, carId) => {
     try {
       // Realiza una solicitud POST para marcar o desmarcar un coche como favorito
-      const response = await axios.post('https://back-reco-node.onrender.com/addFavoriteCar', {
+      const response = await axios.post('https://back-reco-node.onrender.com/userCars/addFavoriteCar', {
         userId: userId,
         carId: carId,
       });
