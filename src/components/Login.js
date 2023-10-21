@@ -9,6 +9,9 @@ const Login = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const authDispatch = useAuthDispatch();
+  // Eliminar el 'username' y el 'token' del localStorage
+  localStorage.removeItem('username');
+  localStorage.removeItem('token');
 
   const handleLogin = async () => {
     try {

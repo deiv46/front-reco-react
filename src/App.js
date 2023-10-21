@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { AuthProvider } from './AuthContext'; // Importa el proveedor de contexto
+import { AuthProvider } from './AuthContext';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import List from './components/List';

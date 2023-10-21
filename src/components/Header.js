@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const Header = ({ isLoginPage = true }) => {
-  // Obtener el valor de 'username' del localStorage
+const Header = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
   const username = localStorage.getItem('username');
+  const token = localStorage.getItem('token');
+
+  const handleLogout = () => {
+    localStorage.removeItem('username');
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+  };
 
   return (
-    <header className="bg-blue-500 p-4">
+    <header className="bg-white-500 p-4">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center text-white font-bold text-xl">
           <div className="w-46 h-12">
@@ -16,8 +33,8 @@ const Header = ({ isLoginPage = true }) => {
             />
           </div>
         </div>
-        {!isLoginPage && username && (
-          <div className="text-white">
+        {token && username &&(
+          <div className="text-white hidden md:flex">
             Usuario Conectado: {username}
           </div>
         )}
