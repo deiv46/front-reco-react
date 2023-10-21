@@ -1,6 +1,9 @@
 import React from 'react';
 
-const Header = ({ username, isLoginPage=true }) => {
+const Header = ({ isLoginPage = true }) => {
+  // Obtener el valor de 'username' del localStorage
+  const username = localStorage.getItem('username');
+
   return (
     <header className="bg-blue-500 p-4">
       <div className="container mx-auto flex justify-between items-center">
