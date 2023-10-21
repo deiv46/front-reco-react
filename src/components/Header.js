@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const username = localStorage.getItem('username');
+  const token = localStorage.getItem('token');
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -11,9 +13,6 @@ const Header = () => {
   const closeMenu = () => {
     setMenuOpen(false);
   };
-
-  const username = localStorage.getItem('username');
-  const token = localStorage.getItem('token');
 
   const handleLogout = () => {
     localStorage.removeItem('username');
@@ -33,9 +32,28 @@ const Header = () => {
             />
           </div>
         </div>
-        {token && username &&(
-          <div className="text-white hidden md:flex">
-            Usuario Conectado: {username}
+        {token && (
+          <div className="md:flex">
+          {token && username &&(
+            <ul className="flex space-x-4">
+              <li>
+                <Link to="/list" className="cursor-pointer font-bold text-black-400 hover:text-gray">
+                  Listado
+                </Link>
+              </li>
+              <li>
+                <Link to="/dashboard" className="cursor-pointer font-bold text-black-400 hover:text-gray">
+                  Dashboard
+                </Link>
+              </li>
+              <li
+                onClick={handleLogout}
+                className="cursor-pointer font-bold text-black-400 hover:text-gray"
+              >
+                Cerrar
+              </li>
+          </ul>
+          )}
           </div>
         )}
       </div>
