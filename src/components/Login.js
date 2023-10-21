@@ -27,7 +27,7 @@ const Login = () => {
         setAuthenticated(authDispatch);
 
         // Navega a la página de Dashboard
-        navigate('/dashboard');
+        navigate('/list');
       } else {
         // Maneja el caso en el que la autenticación falla
         setError('Inicio de sesión fallido');

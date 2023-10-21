@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { AuthProvider } from './AuthContext'; // Importa el proveedor de contexto
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import List from './components/List';
 import Header from './components/Header';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/list" element={<List />} />
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </Router>
