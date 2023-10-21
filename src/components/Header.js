@@ -1,18 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
   const username = localStorage.getItem('username');
   const token = localStorage.getItem('token');
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
 
   const handleLogout = () => {
     localStorage.removeItem('username');
