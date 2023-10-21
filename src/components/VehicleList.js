@@ -88,7 +88,7 @@ const VehicleList = () => {
                   <div className="text-left">{modelo.nombre}</div>
                   <button className="absolute top-2 right-2 text-white rounded-full p-2 bg-gradient-to-r from-yellow-300 to-yellow-500 hover:from-gold-300 hover:to-gold-500"
                     onClick={() => handleFavoriteClick(modelo._id)}>
-                    ⭐
+                    {modelo.isFavorite ? '💛' : '🖤'}
                   </button>
                 </div>
               </div>
