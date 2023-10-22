@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import VehicleList from './VehicleList'; // Asegúrate de que la ruta sea correcta
 
 const List = ({ refreshHeader }) => {
-  refreshHeader();
+  useEffect(() => {
+    refreshHeader();
+  }, []);
 
   return (
     <div className="container mx-auto py-4">
