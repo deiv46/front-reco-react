@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
-  let [username, setUsername] = useState(localStorage.getItem('username'));
-  let [token, setToken] = useState(localStorage.getItem('token'));
+  const [username, setUsername] = useState(localStorage.getItem('username'));
+  const [token, setToken] = useState(localStorage.getItem('token'));
 
   useEffect(() => {
-    username = localStorage.getItem('username');
-    token = localStorage.getItem('token');
+    const storedUsername = localStorage.getItem('username');
+    const storedToken = localStorage.getItem('token');
 
-    if (username && token) {
-      setUsername(username);
-      setToken(token);
+    if (storedUsername && storedToken) {
+      setUsername(storedUsername);
+      setToken(storedToken);
     }
   }, []);
 
