@@ -1,27 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Header = ({ refreshHeader }) => {
-  const [username, setUsername] = useState(localStorage.getItem('username'));
-  const [token, setToken] = useState(localStorage.getItem('token'));
-  const [refreshFlag, setRefreshFlag] = useState(false);
-
-  useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    const storedToken = localStorage.getItem('token');
-
-    if (storedUsername && storedToken) {
-      setUsername(storedUsername);
-      setToken(storedToken);
-    }
-  }, [refreshFlag]); // Agrega refreshFlag como dependencia
-
+const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem('username');
     localStorage.removeItem('token');
-    setUsername(null);
-    setToken(null);
-    setRefreshFlag(!refreshFlag); // Cambia el valor para forzar el refresco
     window.location.href = '/login';
   };
 
@@ -37,30 +20,28 @@ const Header = ({ refreshHeader }) => {
             />
           </div>
         </div>
-        {token && (
+        {localStorage.getItem('token') && localStorage.getItem('username') ? (
           <div className="md:flex">
-            {token && username && (
-              <ul className="flex space-x-4">
-                <li>
-                  <Link to="/list" className="cursor-pointer font-bold text-black-400 hover:text-gray">
-                    Listado
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/dashboard" className="cursor-pointer font-bold text-black-400 hover:text-gray">
-                    Dashboard
-                  </Link>
-                </li>
-                <li
-                  onClick={handleLogout}
-                  className="cursor-pointer font-bold text-black-400 hover:text-gray"
-                >
-                  Cerrar
-                </li>
-              </ul>
-            )}
+            <ul className="flex space-x-4">
+              <li>
+                <Link to="/list" className="cursor-pointer font-bold text-black-400 hover-text-gray">
+                  Listado
+                </Link>
+              </li>
+              <li>
+                <Link to="/dashboard" className="cursor-pointer font-bold text-black-400 hover-text-gray">
+                  Dashboard
+                </Link>
+              </li>
+              <li
+                onClick={handleLogout}
+                className="cursor-pointer font-bold text-black-400 hover-text-gray"
+              >
+                Cerrar
+              </li>
+            </ul>
           </div>
-        )}
+        ) : null}
       </div>
     </header>
   );
