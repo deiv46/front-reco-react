@@ -7,6 +7,9 @@ import List from './components/List';
 import Header from './components/Header';
 
 function App() {
+  const refreshHeader = () => {
+  };
+
   return (
     <AuthProvider>
       <Router>
@@ -14,7 +17,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/list" element={<List />} />
+          <Route path="/list" element={<List refreshHeader={refreshHeader} />} />
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </Router>
