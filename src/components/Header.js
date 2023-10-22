@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
-  const username = localStorage.getItem('username');
-  const token = localStorage.getItem('token');
+  const [username, setUsername] = useState(localStorage.getItem('username'));
+  const [token, setToken] = useState(localStorage.getItem('token'));
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    const storedToken = localStorage.getItem('token');
+
+    if (storedUsername && storedToken) {
+      setUsername(storedUsername);
+      setToken(storedToken);
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('username');
     localStorage.removeItem('token');
+    setUsername(null);
+    setToken(null);
     window.location.href = '/login';
   };
 
@@ -25,26 +37,26 @@ const Header = () => {
         </div>
         {token && (
           <div className="md:flex">
-          {token && username &&(
-            <ul className="flex space-x-4">
-              <li>
-                <Link to="/list" className="cursor-pointer font-bold text-black-400 hover:text-gray">
-                  Listado
-                </Link>
-              </li>
-              <li>
-                <Link to="/dashboard" className="cursor-pointer font-bold text-black-400 hover:text-gray">
-                  Dashboard
-                </Link>
-              </li>
-              <li
-                onClick={handleLogout}
-                className="cursor-pointer font-bold text-black-400 hover:text-gray"
-              >
-                Cerrar
-              </li>
-          </ul>
-          )}
+            {token && username && (
+              <ul className="flex space-x-4">
+                <li>
+                  <Link to="/list" className="cursor-pointer font-bold text-black-400 hover:text-gray">
+                    Listado
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard" className="cursor-pointer font-bold text-black-400 hover:text-gray">
+                    Dashboard
+                  </Link>
+                </li>
+                <li
+                  onClick={handleLogout}
+                  className="cursor-pointer font-bold text-black-400 hover:text-gray"
+                >
+                  Cerrar
+                </li>
+              </ul>
+            )}
           </div>
         )}
       </div>
