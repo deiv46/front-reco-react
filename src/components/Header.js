@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 const Header = ({ refreshHeader }) => {
   const [username, setUsername] = useState(localStorage.getItem('username'));
   const [token, setToken] = useState(localStorage.getItem('token'));
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
@@ -13,13 +14,14 @@ const Header = ({ refreshHeader }) => {
       setUsername(storedUsername);
       setToken(storedToken);
     }
-  }, []);
+  }, [refreshFlag]); // Agrega refreshFlag como dependencia
 
   const handleLogout = () => {
     localStorage.removeItem('username');
     localStorage.removeItem('token');
     setUsername(null);
     setToken(null);
+    setRefreshFlag(!refreshFlag); // Cambia el valor para forzar el refresco
     window.location.href = '/login';
   };
 
